@@ -1,0 +1,90 @@
+// edit background
+import java.awt.*;
+import java.awt.font.*;
+import java.awt.geom.*;
+
+//import java.io.IOException;
+//import java.io.File;
+import java.util.*;
+
+
+public class PSA10a
+{
+  public static void main(String [] args)
+  {
+    //Initialize the map here
+    Map map1 = new Map("map.txt"); 
+      
+    // variables needed to ask for user input
+    Scanner reader = new Scanner(System.in);
+    int n1, n2;
+    
+    map1.repaint();
+    
+    System.out.print("Enter the coordinates of the cell where you want to START (2 numbers separated by a space): (");
+    n1=reader.nextInt();   
+    System.out.print(", ");
+    n2=reader.nextInt();
+    System.out.println(")");
+    Cell startC = new Cell(n1,n2);
+    
+
+    
+    System.out.print("Enter the coordinates of the cell where you want to FINISH (2 numbers separated by a space): (");
+    n1=reader.nextInt();  
+    System.out.print(", ");
+    n2=reader.nextInt();
+    System.out.println(")");
+    Cell endC = new Cell(n1,n2);
+    
+
+
+
+    Turtle lostTurtle;
+    Cell[] mazePath;
+    
+    
+    
+    // This code places the Turtle in the middle of the START cell. CELLS are 40 pixels wide and high in our map   
+    if ( startC.getX() >= 0 && startC.getX() < map1.getWidth()/map1.getCellSize()  && startC.getY()>=0 && startC.getY() < map1.getHeight()/map1.getCellSize() && map1.isFree(startC) ){
+      
+      ///CODE TO CHANGE START CELL COLOR GOES HERE!///
+
+      Color blue = new Color(0,0,255);
+      map1.fillCell(startC.getX(), startC.getY(), blue);
+      
+      /////////////////////////////////////////////////
+      
+      // instantiate and display the turtle
+      int turtleX = startC.getX()*map1.getCellSize() + map1.getCellSize()/2;
+      int turtleY = startC.getY()*map1.getCellSize() + map1.getCellSize()/2;
+      
+      lostTurtle = new Turtle(turtleX, turtleY, map1); //Creates a turtle in w at (x,y) (100,50)     
+          
+      
+    }else{
+      
+         System.out.println("START location " + startC + " is not a valid location in the map (there is an OBSTACLE in this cell)");
+    }
+    if( endC.getX() >= 0 || endC.getX() < map1.getWidth() || endC.getY()>=0 || endC.getY() < map1.getHeight()){ 
+      Color red = new Color(255,0,0);
+      map1.fillCell(endC.getX(), endC.getY(), red);
+    }else {
+         System.out.println("there is an OBSTACLE in this cell or it's out of bounds of map " +map1);
+      return;
+    }
+      
+    
+    // ADD a similar CONDITIONAL STATEMENT to check that the END cell is correct and display a similar message if it's not. CHANGE end CELL color TO RED.
+    
+   
+
+    // call to the method to compute and display the cost map here
+    map1.computeAndDisplayCost(startC, endC);
+      map1.repaint();
+    // add partB method calls here    
+    
+    }
+  
+}
+  
